@@ -1,4 +1,4 @@
-# spotify_new_music
+# Spotify New Music
 Scrapes a user's followed Spotify Mixes and adds new music to a playlist
 ## Requirements
 * Python 3.6+
