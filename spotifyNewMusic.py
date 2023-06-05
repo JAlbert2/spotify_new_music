@@ -51,8 +51,6 @@ def spotipyMain():
             newTracks.extend(sp.playlist_tracks(newPlaylist, offset=i)['items'])
     newTrackIds = []
     for track in newTracks:
-        if track['track']['id'] == '4hWtNA80MqTwYUKjnQBdc2':
-            print(track)
         newTrackIds.append(track['track']['name'] + ' - ' + track['track']['artists'][0]['name'])
 
     print('Filter songs')
