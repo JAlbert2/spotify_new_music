@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -69,6 +71,10 @@ def spotipyMain():
 
     print('Add songs')
     print(len(notLiked))
+    with open('runRecord.txt', 'a') as f:
+        today = datetime.now()
+        f.write(today.strftime('%Y-%m-%d %H:%M:%S') + '\t' + str(len(notLiked)) + '\n')
+
     for item in notLiked:
         # Add all songs to the new playlist
         sp.playlist_add_items(newPlaylist, [item])
