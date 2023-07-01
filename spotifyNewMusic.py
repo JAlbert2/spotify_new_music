@@ -5,16 +5,30 @@ from spotipy.oauth2 import SpotifyOAuth
 
 def main():
     # Run this if you need to add Spotify keys to your environment variables
-    # addKeys()
+    addKeys()
     # Run this to get new music
     spotipyMain()
 
 def addKeys():
     # Add keys to environment variables
     import os
-    os.environ['SPOTIPY_REDIRECT_URI'] = '' # Redirect URI
-    os.environ['SPOTIPY_CLIENT_ID'] = '' # Client ID
-    os.environ['SPOTIPY_CLIENT_SECRET'] = '' # Client Secret
+    with open('keys.txt', 'r') as file:
+        contents = file.readLines()
+        redirect = ''
+        id = ''
+        secret = ''
+        for l in contents:
+            key = l.split('=')[0]
+            value = l.split('=')[1]
+            if 'REDIRECT' in key:
+                redirect = value.strip()
+            elif 'CLIENT_ID' in key:
+                id = value.strip()
+            elif 'CLIENT_SECRET' in key:
+                secret = value.strip()
+        os.environ['SPOTIPY_REDIRECT_URI'] = redirect # Redirect URI
+        os.environ['SPOTIPY_CLIENT_ID'] = id # Client ID
+        os.environ['SPOTIPY_CLIENT_SECRET'] = secret # Client Secret
 
 def spotipyMain():
     scope = "user-library-read,playlist-read-private,playlist-read-collaborative,playlist-modify-public,playlist-modify-private"
