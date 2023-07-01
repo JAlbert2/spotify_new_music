@@ -13,7 +13,7 @@ def addKeys():
     # Add keys to environment variables
     import os
     with open('keys.txt', 'r') as file:
-        contents = file.readLines()
+        contents = file.readlines()
         redirect = ''
         id = ''
         secret = ''
