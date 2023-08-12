@@ -74,7 +74,7 @@ def spotipyMain():
     unlikedSongs = []
     try:
         with open('newSongs.txt', 'r') as newSongsFile:
-            newContents = newSingsFile.readlines()
+            newContents = newSongsFile.readlines()
             newSongsFile.close()
     except:
         newFile = open('newSongs.txt', 'x')
@@ -97,7 +97,7 @@ def spotipyMain():
     
     with open('unlikedSongs.txt', 'a') as unlikedFile:
         for l in unlikedSongs:
-            unlikedFile.append(l + '\n')
+            unlikedFile.write(l + '\n')
         unlikedFile.close()
         
     with open('unlikedSongs.txt', 'r') as unlikedFile: 
