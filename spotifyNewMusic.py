@@ -81,24 +81,23 @@ def spotipyMain():
         newContents = []
         newFile.close()
         
-    
         
     with open('newSongs.txt', 'w') as newSongsFile:
         if len(newContents) == 0:
             for k in newTrackIds:
-                newSongsFile.write(k + '/n')
+                newSongsFile.write(k + '\n')
         for j in newContents:
             j = j.strip()
             if j not in newTrackIds:
                 unlikedSongs.append(j)
             else:
-                newSongsFile.write(j + '/n')
+                newSongsFile.write(j + '\n')
         newSongsFile.close()
         
     
     with open('unlikedSongs.txt', 'a') as unlikedFile:
         for l in unlikedSongs:
-            unlikedFile.append(l + '/n')
+            unlikedFile.append(l + '\n')
         unlikedFile.close()
         
     with open('unlikedSongs.txt', 'r') as unlikedFile: 
