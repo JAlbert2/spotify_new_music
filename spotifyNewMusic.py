@@ -110,6 +110,7 @@ def spotipyMain():
 
     print('Filter songs')
     notLiked = []
+    newLiked = []
     for item in playlists:
         length = sp.playlist(item)['tracks']['total']
         tracks = sp.playlist(item)['tracks']['items']
@@ -119,8 +120,10 @@ def spotipyMain():
         for track in tracks:
             song = track['track']['name'] + ' - ' + track['track']['artists'][0]['name']
             if song not in likedSongs and song not in newTrackIds:
-                notLiked.append(track)
+                notLiked.append(track['track']['id'])
+                newLiked.append(item['track']['name'] + ' - ' + item['track']['artists'][0]['name'] + '\n')
     notLiked = list(set(notLiked))
+    newLiked = list(set(newLiked))
 
     print('Add songs')
     print(len(notLiked))
@@ -129,11 +132,13 @@ def spotipyMain():
         f.write(today.strftime('%Y-%m-%d %H:%M:%S') + '\t' + str(len(notLiked)) + '\n')
         f.close()
         
+    for item in notLiked:
+        # Add all songs to the new playlist
+        sp.playlist_add_items(newPlaylist, [item])
+    
     with open('newSongs.txt', 'a') as newSongsFile:
-        for item in notLiked:
-            # Add all songs to the new playlist
-            sp.playlist_add_items(newPlaylist, [item['track']['id']])
-            newSongsFile.write(item['track']['name'] + ' - ' + item['track']['artists'][0]['name'] + '\n')
+        for n in newLiked:
+            newSongsFile.write(n)
         newSongsFile.close()
     print('Done')
 
