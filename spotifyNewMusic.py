@@ -45,6 +45,7 @@ def spotipyMain():
             # Append the name and artist of each song to the list
             likedSongs.append(item['track']['name'] + ' - ' + item['track']['artists'][0]['name'])
         likedPlaylist = sp.current_user_saved_tracks(offset=len(likedSongs))
+    
 
     print('Playlists')
     results = sp.current_user_playlists()
@@ -56,7 +57,7 @@ def spotipyMain():
         if item['name'] == 'New Music':
             newPlaylist = item['id']
 
-    print('New Music')
+    print('Current New Music')
     if 'newPlaylist' not in locals():
         newPlaylist = sp.user_playlist_create(sp.me()['id'], 'New Music')['id']
 
@@ -68,6 +69,45 @@ def spotipyMain():
     newTrackIds = []
     for track in newTracks:
         newTrackIds.append(track['track']['name'] + ' - ' + track['track']['artists'][0]['name'])
+        
+    print('Unliked songs')
+    unlikedSongs = []
+    try:
+        with open('newSongs.txt', 'r') as newSongsFile:
+            newContents = newSingsFile.readlines()
+            newSongsFile.close()
+    except:
+        newFile = open('newSongs.txt', 'x')
+        newContents = []
+        newFile.close()
+        
+    
+        
+    with open('newSongs.txt', 'w') as newSongsFile:
+        if len(newContents) == 0:
+            for k in newTrackIds:
+                newSongsFile.write(k + '/n')
+        for j in newContents:
+            j = j.strip()
+            if j not in newTrackIds:
+                unlikedSongs.append(j)
+            else:
+                newSongsFile.write(j + '/n')
+        newSongsFile.close()
+        
+    
+    with open('unlikedSongs.txt', 'a') as unlikedFile:
+        for l in unlikedSongs:
+            unlikedFile.append(l + '/n')
+        unlikedFile.close()
+        
+    with open('unlikedSongs.txt', 'r') as unlikedFile: 
+        unlikedContents = unlikedFile.readlines()
+        for m in unlikedContents:
+            likedSongs.append(m.strip())
+        unlikedFile.close()
+        
+    
 
     print('Filter songs')
     notLiked = []
