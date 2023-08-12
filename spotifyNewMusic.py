@@ -121,7 +121,7 @@ def spotipyMain():
             song = track['track']['name'] + ' - ' + track['track']['artists'][0]['name']
             if song not in likedSongs and song not in newTrackIds:
                 notLiked.append(track['track']['id'])
-                newLiked.append(item['track']['name'] + ' - ' + item['track']['artists'][0]['name'] + '\n')
+                newLiked.append(track['track']['name'] + ' - ' + track['track']['artists'][0]['name'] + '\n')
     notLiked = list(set(notLiked))
     newLiked = list(set(newLiked))
 
