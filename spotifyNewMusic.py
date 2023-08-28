@@ -29,6 +29,7 @@ def addKeys():
         os.environ['SPOTIPY_REDIRECT_URI'] = redirect # Redirect URI
         os.environ['SPOTIPY_CLIENT_ID'] = id # Client ID
         os.environ['SPOTIPY_CLIENT_SECRET'] = secret # Client Secret
+        file.close()
 
 def spotipyMain():
     scope = "user-library-read,playlist-read-private,playlist-read-collaborative,playlist-modify-public,playlist-modify-private"
