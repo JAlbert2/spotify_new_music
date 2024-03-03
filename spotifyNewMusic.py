@@ -4,6 +4,10 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
 def main():
+    with open('runRecord.txt', 'a') as f:
+        today = datetime.now()
+        f.write(today.strftime('%Y-%m-%d %H:%M:%S') + '\n')
+        f.close()
     # Run this if you need to add Spotify keys to your environment variables
     addKeys()
     # Run this to get new music
@@ -12,6 +16,7 @@ def main():
 def addKeys():
     # Add keys to environment variables
     import os
+    # /home/jonah/Documents/spotify_new_music/
     with open('keys.txt', 'r') as file:
         contents = file.readlines()
         redirect = ''
@@ -51,12 +56,16 @@ def spotipyMain():
     print('Playlists')
     results = sp.current_user_playlists()
     playlists = []
-    for item in results['items']:
-        # Remove all playlists that Spotify does not create
-        if item['owner']['id'] == 'spotify' and (item['name'] == 'Discover Weekly' or 'Mix' in item['name']):
-            playlists.append(item['id'])
-        if item['name'] == 'New Music':
-            newPlaylist = item['id']
+    with open('playlists.txt', 'w') as play:
+        for item in results['items']:
+            # Remove all playlists that Spotify does not create
+            if item['owner']['id'] == 'spotify' and ((item['name'] == 'Discover Weekly' and datetime.now().weekday() == 8) or 'Mix' in item['name']):
+                playlists.append(item['id'])
+                play.write(str(item))
+                play.write('\n')
+            if item['name'] == 'New Music':
+                newPlaylist = item['id']
+        play.close() 
 
     print('Current New Music')
     if 'newPlaylist' not in locals():
@@ -107,7 +116,6 @@ def spotipyMain():
             likedSongs.append(m.strip())
         unlikedFile.close()
         
-    
 
     print('Filter songs')
     notLiked = []
@@ -120,7 +128,7 @@ def spotipyMain():
                 tracks.extend(sp.playlist_tracks(item, offset=i)['items'])
         for track in tracks:
             song = track['track']['name'] + ' - ' + track['track']['artists'][0]['name']
-            if song not in likedSongs and song not in newTrackIds:
+            if song not in likedSongs and song not in newTrackIds and song.split(' - ')[1] not in ['Taylor Swift']:
                 notLiked.append(track['track']['id'])
                 newLiked.append(track['track']['name'] + ' - ' + track['track']['artists'][0]['name'] + '\n')
     notLiked = list(set(notLiked))
